@@ -1,6 +1,6 @@
 /** @jsx h */
 import app, { observer } from "../app"
-import { stringify } from "bitbox/factories"
+import { stringify } from "bitbox/operators"
 import mapping from "../mapping"
 
 function Mapped(props, h) {

@@ -1,7 +1,6 @@
-import bitbox, { proxy, utils } from "bitbox"
+import bitbox, { proxy } from "bitbox"
+import { is } from "bitbox/utils"
 import FunctionTree from "function-tree"
-
-const { is } = utils
 
 function argsProvider(context, action, { args = [] }) {
     context[Symbol.for("args")] = args
@@ -9,33 +8,33 @@ function argsProvider(context, action, { args = [] }) {
     return context
 }
 
-export const state = bitbox("state")
-
 export const signals = bitbox(
-    function signal(target) {
+    function init(target) {
         if (!Reflect.has(target, "signal"))
             Reflect.set(target, "signal", new FunctionTree([argsProvider, { state: target.state }]))
+
         return target
     },
     proxy({
         get(target, key) {
             const value = Reflect.get(target, key)
+
             return is.object(value) ? new Proxy(value, this) : value
         },
         set(target, key, value) {
-            if (is.object(value)) {
-                const signals = Object.keys(value).reduce((obj, key) => {
-                    obj[key] = (...args) => target.signal.run(key, value[key], { args })
-                    return obj
-                }, {})
-
-                return Reflect.set(target, key, signals)
-            }
-            return Reflect.set(target, key, (...args) => target.signal.run(key, value, { args }))
+            return Reflect.set(
+                target,
+                key,
+                is.object(value)
+                    ? Object.keys(value).reduce((obj, key) => {
+                          obj[key] = (...args) => target.signal.run(key, value[key], { args })
+                          return obj
+                      }, {})
+                    : (...args) => target.signal.run(key, value, { args })
+            )
         }
-    }),
-    "signals"
-)
+    })
+).signals
 
 const app = bitbox({
     args(target) {
@@ -45,8 +44,8 @@ const app = bitbox({
             Array.from(target)
         )
     },
-    state,
     signals,
+    state: ["state"],
     signal: ["signal"],
     props: ["props"],
     observer: ["observer"],
@@ -65,4 +64,5 @@ const app = bitbox({
 })
 
 export default app
+
 export const { args, props, observer, timer } = app

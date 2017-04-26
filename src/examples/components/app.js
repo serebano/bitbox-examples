@@ -1,13 +1,14 @@
 /** @jsx h */
-import { or, stringify } from "bitbox/factories"
+import { or, stringify } from "bitbox/operators"
 import { is } from "bitbox/utils"
 import { state } from "../app"
 import Hello from "./hello"
 import Count from "./count"
+import CountDL from "./count-depless"
 import Toggle from "./toggle"
 import Timer from "./timer"
 import Mapped from "./mapped"
-
+window.CountDL = CountDL
 function App(props, h) {
     return (
         <div>

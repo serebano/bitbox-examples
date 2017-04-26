@@ -1,6 +1,6 @@
 /** @jsx h */
 import { is } from "bitbox/utils"
-import { stringify } from "bitbox/factories"
+import { stringify } from "bitbox/operators"
 import { root } from "../app"
 
 export default function Keys(props, h) {

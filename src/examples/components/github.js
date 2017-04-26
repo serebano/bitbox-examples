@@ -1,6 +1,6 @@
 /** @jsx h */
 import { state, props } from "../app"
-import { or, eq, join, ensure, is, concat } from "../../operators"
+import { or, eq, join, ensure, is, concat } from "bitbox/operators"
 
 function Github(props, h) {
     return (

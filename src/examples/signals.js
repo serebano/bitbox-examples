@@ -1,5 +1,5 @@
 import { get, set, unset } from "bitbox"
-import { inc, dec, toggle } from "bitbox/factories"
+import { inc, dec, toggle } from "bitbox/operators"
 import { state, args, props, timer } from "./app"
 
 const isRunning = get(timer.iid(Boolean))
