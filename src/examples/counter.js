@@ -1,19 +1,27 @@
 /** @jsx h */
 
 export default [
-    function({ state, props, observer }) {
+    function({ state, props, args }, { set, inc, dec }) {
         const counter = state.counters[props.id]()
 
         return {
             count: counter.count(String),
             status: counter.runId(id => id || "stopped"),
-            inc: counter(target => () => target.count++),
-            dec: counter(target => () => target.count--),
-            set: counter(target => event => target.count = Number(event.target.value || 0)),
-            run: counter(target => () =>
-                target.runId = target.runId
-                    ? clearInterval(target.runId)
-                    : setInterval(() => target.count++)),
+            inc: set(counter.count, counter.count(inc)),
+            dec: set(counter.count, counter.count(dec)),
+            set: set(counter.count, args[0].target.value(Number)),
+            run(target) {
+                return () => {
+                    counter.runId(
+                        target,
+                        counter.runId(running => {
+                            return running
+                                ? clearInterval(running)
+                                : setInterval(() => counter.count(target, counter.count(inc)))
+                        })
+                    )
+                }
+            },
             remove(target) {
                 return () => {
                     clearInterval(counter.runId(target))

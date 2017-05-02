@@ -1,6 +1,6 @@
 /** @jsx h */
 import Counters from "./examples/counters"
-import Bitbox from "./examples/box"
+import Bitbox from "./examples/bitbox"
 import logo from "./logo.svg"
 import "./App.css"
 
@@ -11,7 +11,7 @@ function App(props, h) {
                 <img src={logo} className="App-logo" alt="logo" />
                 <h2>Counters ({props.size})</h2>
             </div>
-            <Bitbox />
+            <Bitbox debug={true} />
             <Counters />
         </div>
     )

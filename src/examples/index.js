@@ -4,7 +4,7 @@ import App from "../App"
 const store = {
     state: {
         counters: [{ count: 1 }, { count: 2 }],
-        box: {}
+        name: "Scooby Doo"
     }
 }
 
