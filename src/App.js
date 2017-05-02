@@ -1,20 +1,20 @@
-import React, { Component } from "react"
-import * as bitbox from "bitbox"
-import * as examples from "./examples"
+/** @jsx h */
+import Counters from "./examples/counters"
+import Bitbox from "./examples/box"
 import logo from "./logo.svg"
 import "./App.css"
 
-class App extends Component {
-    render() {
-        return (
-            <div className="App">
-                <div className="App-header">
-                    <img src={logo} className="App-logo" alt="logo" />
-                    <h2>bitbox examples</h2>
-                </div>
+function App(props, h) {
+    return (
+        <div className="App">
+            <div className="App-header">
+                <img src={logo} className="App-logo" alt="logo" />
+                <h2>Counters ({props.size})</h2>
             </div>
-        )
-    }
+            <Bitbox />
+            <Counters />
+        </div>
+    )
 }
 
-export default App
+export default [app => ({ size: app.state.counters.length }), App]

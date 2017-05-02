@@ -1,11 +1,11 @@
-import { render } from "inferno"
-import { views } from "bitbox"
-import App from "./components/app"
-import app from "./app"
-import store from "./store"
+import Component, { render } from "bitbox-inferno-component"
+import App from "../App"
 
-export { app, store }
+const store = {
+    state: {
+        counters: [{ count: 1 }, { count: 2 }],
+        box: {}
+    }
+}
 
-//component.debug = true
-
-render(views.inferno(App, store, app), document.querySelector("#root"))
+render(Component(App, store), "#root")
